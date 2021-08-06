@@ -1,6 +1,5 @@
 
 const path = require('path');
-const fs = require('fs');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
@@ -8,27 +7,27 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const mode = process.env.NODE_ENV === 'production' ? 'production' : 'development';
 const devtool = process.env.NODE_ENV === 'production' ? undefined : 'inline-source-map';
 
-const webcomponentsjs = './node_modules/@webcomponents/webcomponentsjs';
+const webcomponentsjs = 'node_modules/@webcomponents/webcomponentsjs';
 
 const polyfills = [
     {
-        from: path.resolve(`${webcomponentsjs}/webcomponents-*.{js,map}`),
-        to: 'vendor',
+        from: `${webcomponentsjs}/webcomponents-*.{js,map}`,
+        to: 'vendor/[name][ext]',
     },
     {
-        from: path.resolve(`${webcomponentsjs}/bundles/*.{js,map}`),
-        to: 'vendor/bundles',
+        from: `${webcomponentsjs}/bundles/*.{js,map}`,
+        to: 'vendor/bundles/[name][ext]',
     },
     {
-        from: path.resolve(`${webcomponentsjs}/custom-elements-es5-adapter.js`),
-        to: 'vendor',
+        from: `${webcomponentsjs}/custom-elements-es5-adapter.js`,
+        to: 'vendor/[name][ext]',
     },
 ];
 
 const assets = [
     {
         from: 'static/',
-        to: '',
+        to: '[path][name][ext]',
     },
 ];
 
@@ -36,8 +35,19 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.tsx?$/,
-                loader: 'ts-loader',
+                test: /\.m?[tj]sx?$/,
+                use: {
+                    loader: 'babel-loader',
+                    options: {
+                        plugins: [
+                            ['@babel/plugin-proposal-decorators', { "legacy": true }],
+                        ],
+                        presets: [
+                            '@babel/preset-typescript',
+                            '@babel/preset-env',
+                        ]
+                    }
+                },
             },
             {
                 test: /\.(woff2|svg|png|jpe?g|gif)$/i,

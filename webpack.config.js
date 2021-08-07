@@ -51,11 +51,11 @@ module.exports = {
                 },
             },
             {
-                test: /\.(woff2|svg|mp4|png|jpe?g|gif)$/i,
+                test: /\.(svg|mp4|png)$/i,
                 use: {
                     loader: 'file-loader',
                     options: {
-                        name: '[name].[chunkhash:8][ext]',
+                        name: '[name].[contenthash:8].[ext]',
                         esModule: false,
                     }
                 }

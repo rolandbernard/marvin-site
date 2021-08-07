@@ -12,7 +12,7 @@ export class PageRoot extends LitElement {
     render() {
         return html`
             <div class="window">
-                Hello world
+                Hello World
             </div>
         `;
     }

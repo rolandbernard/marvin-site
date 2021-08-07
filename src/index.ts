@@ -17,6 +17,8 @@ export class PageRoot extends LitElement {
                 flex-flow: column;
                 color: white;
                 min-height: 100%;
+                max-width: 1200px;
+                margin: auto;
             }
             .header, .footer {
                 flex: 0 0 auto;
@@ -24,6 +26,9 @@ export class PageRoot extends LitElement {
             .content {
                 flex: 1 1 auto;
                 height: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
             }
         `
     }

@@ -1,6 +1,22 @@
 
 import { css, customElement, html, LitElement, property } from 'lit-element';
 
+export function isActive(route?: string): boolean {
+    if (route) {
+        const regEx = new RegExp(`^${route}$`);
+        let path;
+        if (route[0] === "#") {
+            path = window.location.hash || "#/";
+        } else {
+            path = window.location.pathname || "/";
+        }            
+        const match = path.match(regEx);
+        return match ? true : false;
+    } else {
+        return true;
+    }
+}
+
 @customElement('simple-route')
 export class SimpleRoute extends LitElement {
 
@@ -26,25 +42,13 @@ export class SimpleRoute extends LitElement {
     }
 
     updateRoute() {
-        if (this.route) {
-            const regEx = new RegExp(`^${this.route}$`);
-            let path;
-            if (this.route[0] === "#") {
-                path = window.location.hash || "#/";
-            } else {
-                path = window.location.pathname || "/";
-            }            
-            const match = path.match(regEx);
-            if (match && !this.visible) {
-                this.visible = true;
-                this.requestUpdate();
-            }
-            if (!match && this.visible) {
-                this.visible = false;
-                this.requestUpdate();
-            }
-        } else if (!this.visible) {
+        const active = isActive(this.route);
+        if (active && !this.visible) {
             this.visible = true;
+            this.requestUpdate();
+        }
+        if (!active && this.visible) {
+            this.visible = false;
             this.requestUpdate();
         }
     }

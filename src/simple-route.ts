@@ -1,11 +1,11 @@
 
-import { customElement, html, LitElement, property } from 'lit-element';
+import { css, customElement, html, LitElement, property } from 'lit-element';
 
 @customElement('simple-route')
 export class SimpleRoute extends LitElement {
 
     @property()
-    route: string = '/';
+    route?: string;
 
     visible = false;
 
@@ -26,22 +26,35 @@ export class SimpleRoute extends LitElement {
     }
 
     updateRoute() {
-        const regEx = new RegExp(`^${this.route}$`);
-        let path;
-        if (this.route[0] === "#") {
-            path = window.location.hash || "#/";
-        } else {
-            path = window.location.pathname || "/";
-        }            
-        const match = path.match(regEx);
-        if(match && !this.visible) {
+        if (this.route) {
+            const regEx = new RegExp(`^${this.route}$`);
+            let path;
+            if (this.route[0] === "#") {
+                path = window.location.hash || "#/";
+            } else {
+                path = window.location.pathname || "/";
+            }            
+            const match = path.match(regEx);
+            if (match && !this.visible) {
+                this.visible = true;
+                this.requestUpdate();
+            }
+            if (!match && this.visible) {
+                this.visible = false;
+                this.requestUpdate();
+            }
+        } else if (!this.visible) {
             this.visible = true;
             this.requestUpdate();
         }
-        if (!match && this.visible) {
-            this.visible = false;
-            this.requestUpdate();
-        }
+    }
+
+    static get styles() {
+        return css`
+            :host {
+                display: contents;
+            }
+        `;
     }
 
     render() {

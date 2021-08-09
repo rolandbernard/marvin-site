@@ -27,7 +27,7 @@ export class PageHeader extends LitElement {
                 margin: 1.5rem;
             }
             .name {
-                font-size: 2rem;
+                font-size: 1.5rem;
                 font-weight: bold;
                 margin-bottom: 0.25rem;
             }

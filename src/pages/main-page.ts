@@ -1,6 +1,8 @@
 
 import { customElement, html, css, LitElement } from 'lit-element';
 
+import Demo from 'images/demo.mp4';
+
 @customElement('main-page')
 export class MainPage extends LitElement {
 
@@ -11,6 +13,12 @@ export class MainPage extends LitElement {
 
     render() {
         return html`
+            <video
+                class="preview"
+                ?autoplay="${true}"
+                ?loop="${true}"
+                src="${Demo}"
+            ></video>
         `;
     }
 }

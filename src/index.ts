@@ -5,6 +5,10 @@ import 'page-header';
 import 'page-footer';
 import 'switch-route';
 
+import 'pages/main-page';
+import 'pages/download-page';
+import 'pages/features-page';
+
 import 'index.css';
 
 @customElement('page-root')
@@ -39,9 +43,9 @@ export class PageRoot extends LitElement {
                 <page-header class="header"></page-header>
                 <div class="content">
                     <switch-route .routes="${[
-                        { route: '#/?download/?', component: html`Download` },
-                        { route: '#/?features/?', component: html`Features` },
-                        { component: html`Hello World` }
+                        { route: '#/?download/?', component: html`<download-page></download-page>` },
+                        { route: '#/?features/?', component: html`<features-page></features-page>` },
+                        { component: html`<main-page></main-page>` }
                     ]}"></switch-route>
                 </div>
                 <page-footer class="footer"></page-footer>

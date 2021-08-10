@@ -1,9 +1,9 @@
 
 import { css, customElement, html, LitElement, property } from 'lit-element';
 
-export function isActive(route?: string): boolean {
+export function isRouteActive(route?: string): boolean {
     if (route) {
-        const regEx = new RegExp(`^${route}$`);
+        const regEx = new RegExp(`^${route}$`, 'i');
         let path;
         if (route[0] === "#") {
             path = window.location.hash || "#/";
@@ -42,7 +42,7 @@ export class SimpleRoute extends LitElement {
     }
 
     updateRoute() {
-        const active = isActive(this.route);
+        const active = isRouteActive(this.route);
         if (active && !this.visible) {
             this.visible = true;
             this.requestUpdate();

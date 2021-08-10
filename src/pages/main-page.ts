@@ -1,7 +1,7 @@
 
 import { customElement, html, css, LitElement } from 'lit-element';
 
-import Demo from 'images/demo.mp4';
+import Demo from 'assets/demo.mp4';
 
 @customElement('main-page')
 export class MainPage extends LitElement {

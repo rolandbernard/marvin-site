@@ -4,8 +4,6 @@ import { classMap } from 'lit-html/directives/class-map';
 
 import { isRouteActive } from 'simple-route';
 
-import Logo from 'images/logo.svg';
-
 import 'material-icon';
 
 @customElement('nav-button')
@@ -68,10 +66,10 @@ export class NavButton extends LitElement {
                 left: 0.25rem;
                 right: 0.25rem;
                 background: white;
-            }
-            .link.active::after {
                 transition: var(--transition);
                 transition-property: opacity;
+            }
+            .link.active::after {
                 opacity: 0.625;
             }
             .icon {
@@ -118,8 +116,7 @@ export class PageHeader extends LitElement {
                 align-items: center;
             }
             .logo {
-                width: 5rem;
-                height: 5rem;
+                font-size: 4rem;
                 pointer-events: none;
             }
             .text {
@@ -152,7 +149,7 @@ export class PageHeader extends LitElement {
         return html`
             <div class="header">
                 <div class="info">
-                    <img class="logo" src="${Logo}" />
+                    <material-icon class="logo" name="marvin"></material-icon>
                     <div class="text">
                         <div class="name">Marvin</div>
                         <div class="desc">An app launcher for Linux and Windows</div>

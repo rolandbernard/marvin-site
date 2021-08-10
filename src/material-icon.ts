@@ -1,6 +1,14 @@
 
 import { customElement, html, css, LitElement, property } from 'lit-element';
 
+import Github from 'assets/icons/github.svg';
+import Marvin from 'assets/icons/marvin.svg';
+
+const ICONS = {
+    'github': Github,
+    'marvin': Marvin,
+};
+
 @customElement('material-icon')
 export class MaterialIcon extends LitElement {
 
@@ -10,6 +18,10 @@ export class MaterialIcon extends LitElement {
     static get styles() {
         return css`
             :host {
+                display: contents;
+            }
+            .material-icons {
+                display: contents;
                 font-family: 'Material Icons Outlined';
                 font-weight: normal;
                 font-style: normal;
@@ -23,11 +35,24 @@ export class MaterialIcon extends LitElement {
                 -webkit-font-feature-settings: 'liga';
                 -webkit-font-smoothing: antialiased;
             }
+            .image {
+                pointer-events: none;
+                max-width: 1em;
+                max-height: 1em;
+            }
         `;
     }
 
     render() {
-        return html`${this.name}`;
+        if (this.name in ICONS) {
+            return html`
+                <img class="image" src="${ICONS[this.name as keyof typeof ICONS]}"/>
+            `;
+        } else {
+            return html`
+                <span class="material-icons">${this.name}</span>
+            `;
+        }
     }
 }
 

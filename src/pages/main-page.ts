@@ -11,9 +11,11 @@ export class MainPage extends LitElement {
             :host {
                 max-width: 90%;
                 width: 800px;
+                text-align: center;
             }
             .video {
                 max-width: 100%;
+                max-height: calc(80vh - 10rem);
             }
         `
     }

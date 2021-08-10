@@ -51,6 +51,16 @@ export class NavButton extends LitElement {
                 position: relative;
                 opacity: 0.625;
             }
+            @media screen and (max-width: 400px) {
+                .link {
+                    padding: 0.5rem;
+                }
+            }
+            @media screen and (max-width: 350px) {
+                .link {
+                    padding: 0.25rem;
+                }
+            }
             .link:hover {
                 opacity: 0.9;
             }
@@ -110,17 +120,29 @@ export class PageHeader extends LitElement {
                 align-items: center;
                 padding: 1.5rem 3rem 0;
             }
+            @media screen and (max-width: 750px) {
+                .header {
+                    flex-flow: column;
+                    justify-content: center;
+                }
+            }
+            @media screen and (max-width: 350px) {
+                .header {
+                    padding: 0.5rem 0.5rem 0;
+                }
+            }
             .info {
                 display: flex;
                 flex-flow: row nowrap;
                 align-items: center;
+                margin-bottom: 1.5rem;
             }
             .logo {
                 font-size: 4rem;
                 pointer-events: none;
             }
             .text {
-                margin: 1.5rem;
+                margin-left: 1.5rem;
             }
             .name {
                 font-size: 1.5rem;
@@ -135,12 +157,7 @@ export class PageHeader extends LitElement {
                 flex-flow: row nowrap;
                 align-items: center;
                 justify-content: center;
-            }
-            @media screen and (max-width: 900px) {
-                .header {
-                    flex-flow: column;
-                    justify-content: center;
-                }
+                margin-bottom: 1.5rem;
             }
         `;
     }

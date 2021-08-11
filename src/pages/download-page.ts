@@ -76,6 +76,8 @@ export class DownloadPage extends LitElement {
                 display: flex;
                 flex-flow: column;
                 align-items: center;
+                max-width: 100%;
+                overflow: hidden;
             }
             .error {
                 color: white;
@@ -121,7 +123,7 @@ export class DownloadPage extends LitElement {
                 font-weight: bold;
             }
             .downloads {
-                margin: 1rem;
+                margin-bottom: 1rem;
                 display: flex;
                 flex-flow: row nowrap;
                 align-items: stretch;
@@ -152,6 +154,21 @@ export class DownloadPage extends LitElement {
                 width: 2px;
                 background: white;
                 opacity: 0.5;
+            }
+            @media screen and (max-width: 750px) {
+                .download {
+                    margin: 1rem 2rem;
+                }
+            }
+            @media screen and (max-width: 600px) {
+                .download {
+                    margin: 1rem 1rem;
+                }
+            }
+            @media screen and (max-width: 400px) {
+                .download {
+                    margin: 1rem 0;
+                }
             }
         `
     }

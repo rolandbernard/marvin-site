@@ -64,6 +64,7 @@ export class PageFooter extends LitElement {
                 flex-flow: row;
                 justify-content: center;
                 align-items: center;
+                margin-top: 1rem;
             }
         `;
     }

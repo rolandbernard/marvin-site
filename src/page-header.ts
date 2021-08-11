@@ -87,7 +87,6 @@ export class NavButton extends LitElement {
             }
             .name {
                 margin-left: 0.25rem;
-                font-weight: 300;
             }
         `;
     }

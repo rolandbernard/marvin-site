@@ -3,10 +3,14 @@ import { customElement, html, css, LitElement, property } from 'lit-element';
 
 import Github from 'assets/icons/github.svg';
 import Marvin from 'assets/icons/marvin.svg';
+import Windows from 'assets/icons/windows.svg';
+import Linux from 'assets/icons/linux.svg';
 
 const ICONS = {
     'github': Github,
     'marvin': Marvin,
+    'windows': Windows,
+    'linux': Linux,
 };
 
 @customElement('material-icon')

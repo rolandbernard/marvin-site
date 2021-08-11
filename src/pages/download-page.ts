@@ -86,6 +86,8 @@ export class DownloadPage extends LitElement {
             .link {
                 margin: 0.5rem;
                 color: white;
+                transition: var(--transition);
+                transition-property: opacity;
                 opacity: 0.625;
             }
             .link:hover {

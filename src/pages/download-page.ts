@@ -2,7 +2,7 @@
 import { customElement, html, css, LitElement, property } from 'lit-element';
 import { until } from 'lit-html/directives/until';
 
-import 'material-icon';
+import 'components/material-icon';
 
 const API_URL = 'https://api.github.com/repos/rolandbernard/marvin/releases/latest';
 const DOWNLOAD_URL = 'https://github.com/rolandbernard/marvin/releases/download';
@@ -88,7 +88,7 @@ export class DownloadPage extends LitElement {
                 color: white;
                 transition: var(--transition);
                 transition-property: opacity;
-                opacity: 0.625;
+                opacity: 0.75;
             }
             .link:hover {
                 opacity: 0.9;
@@ -116,7 +116,7 @@ export class DownloadPage extends LitElement {
                 display: flex;
                 flex-flow: column;
                 align-items: center;
-                opacity: 0.625;
+                opacity: 0.8;
             }
             .info > div {
                 margin: 0.25rem;
@@ -142,7 +142,7 @@ export class DownloadPage extends LitElement {
                 font-size: 1.5rem;
                 font-weight: bold;
                 color: white;
-                opacity: 0.625;
+                opacity: 0.8;
             }
             .logo {
                 width: 7rem;

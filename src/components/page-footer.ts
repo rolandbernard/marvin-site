@@ -1,7 +1,7 @@
 
 import { customElement, html, css, LitElement, property } from 'lit-element';
 
-import 'material-icon';
+import 'components/material-icon';
 
 @customElement('info-button')
 export class InfoButton extends LitElement {

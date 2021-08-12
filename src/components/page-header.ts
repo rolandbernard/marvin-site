@@ -2,9 +2,9 @@
 import { customElement, html, css, LitElement, property } from 'lit-element';
 import { classMap } from 'lit-html/directives/class-map';
 
-import { isRouteActive } from 'simple-route';
+import { isRouteActive } from 'components/simple-route';
 
-import 'material-icon';
+import 'components/material-icon';
 
 @customElement('nav-button')
 export class NavButton extends LitElement {
@@ -17,6 +17,9 @@ export class NavButton extends LitElement {
 
     @property()
     href: string = '';
+
+    @property()
+    exact = false;
 
     constructor() {
         super();
@@ -94,7 +97,7 @@ export class NavButton extends LitElement {
     render() {
         const classes = classMap({
             'link': true,
-            'active': isRouteActive(this.href + '/?'),
+            'active': isRouteActive(this.href + (this.exact ? '/?' : '(/.*)?')),
         });
         return html`
             <a class="${classes}" href="${this.href}" ondragstart="return false" @click="${() => this.requestUpdate()}">
@@ -147,6 +150,7 @@ export class PageHeader extends LitElement {
                 font-size: 1.5rem;
                 font-weight: bold;
                 margin-bottom: 0.25rem;
+                opacity: 0.95;
             }
             .desc {
                 opacity: 0.625;
@@ -176,6 +180,7 @@ export class PageHeader extends LitElement {
                         icon="home"
                         text="Home"
                         href="#"
+                        exact="true"
                     ></nav-button>
                     <nav-button
                         icon="download"

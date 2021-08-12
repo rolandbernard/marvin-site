@@ -2,7 +2,7 @@
 import { css, customElement, html, LitElement, property } from 'lit-element';
 import { NodePart } from 'lit-html';
 
-import 'simple-route';
+import 'components/simple-route';
 
 export interface Route {
     route?: string;

@@ -1,9 +1,9 @@
 
 import { customElement, html, css, LitElement } from 'lit-element';
 
-import 'page-header';
-import 'page-footer';
-import 'switch-route';
+import 'components/page-header';
+import 'components/page-footer';
+import 'components/switch-route';
 
 import 'pages/main-page';
 import 'pages/download-page';
@@ -43,8 +43,8 @@ export class PageRoot extends LitElement {
                 <page-header class="header"></page-header>
                 <div class="content">
                     <switch-route .routes="${[
-                        { route: '#/?download/?', component: html`<download-page></download-page>` },
-                        { route: '#/?features/?', component: html`<features-page></features-page>` },
+                        { route: '#/?download(/.*)?', component: html`<download-page></download-page>` },
+                        { route: '#/?features(/.*)?', component: html`<features-page></features-page>` },
                         { component: html`<main-page></main-page>` }
                     ]}"></switch-route>
                 </div>

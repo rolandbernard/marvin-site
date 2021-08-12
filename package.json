@@ -10,12 +10,7 @@
         "build": "webpack --config webpack.config.js",
         "start": "webpack serve --config webpack.config.js"
     },
-    "browserslist": [
-        ">2%",
-        "Edge > 14",
-        "Firefox > 63",
-        "Chrome > 67"
-    ],
+    "browserslist": ">1%, not dead, ie 11",
     "devDependencies": {
         "@babel/core": "^7.15.0",
         "@babel/plugin-proposal-decorators": "^7.14.5",
@@ -35,6 +30,7 @@
         "webpack-dev-server": "^3.11.2"
     },
     "dependencies": {
+        "@babel/polyfill": "^7.12.1",
         "@webcomponents/webcomponentsjs": "^2.6.0",
         "lit-element": "^2.5.1",
         "lit-html": "^1.4.1"

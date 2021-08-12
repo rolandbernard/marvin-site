@@ -234,7 +234,7 @@ export class DownloadPage extends LitElement {
     async downloadInfo() {
         return html`
             ${await this.releaseInfo()}
-            <a class="link" href="https://github.com/rolandbernard/marvin/releases/latest">
+            <a class="link" href="https://github.com/rolandbernard/marvin/releases/">
                 Release Notes
             </a>
         `;

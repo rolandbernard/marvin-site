@@ -8,6 +8,28 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const mode = process.env.NODE_ENV === 'production' ? 'production' : 'development';
 const devtool = process.env.NODE_ENV === 'production' ? undefined : 'inline-source-map';
 
+const webcomponentsjs = 'node_modules/@webcomponents/webcomponentsjs';
+const babel_polyfill = 'node_modules/@babel/polyfill/';
+
+const polyfills = [
+    {
+        from: `${webcomponentsjs}/webcomponents-*.{js,map}`,
+        to: 'vendor/[name][ext]',
+    },
+    {
+        from: `${webcomponentsjs}/bundles/*.{js,map}`,
+        to: 'vendor/bundles/[name][ext]',
+    },
+    {
+        from: `${webcomponentsjs}/custom-elements-es5-adapter.js`,
+        to: 'vendor/[name][ext]',
+    },
+    {
+        from: `${babel_polyfill}/dist/polyfill.min.js`,
+        to: 'vendor/[name][ext]',
+    },
+];
+
 const assets = [
     {
         from: 'static/',
@@ -58,10 +80,7 @@ module.exports = {
     mode,
     node: false,
     devtool,
-    entry: {
-        polyfills: path.join(__dirname, 'src', 'polyfills.ts'),
-        main: path.join(__dirname, 'src', 'index.ts'),
-    },
+    entry: path.join(__dirname, 'src', 'index.ts'),
     output: {
         filename: '[name].[chunkhash:8].js',
         path: path.join(__dirname, 'build'),
@@ -73,7 +92,7 @@ module.exports = {
             filename: 'index.html',
         }),
         new CopyWebpackPlugin({
-            patterns: assets,
+            patterns: [...polyfills, ...assets],
         }),
     ],
 };

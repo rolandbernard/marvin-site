@@ -8,7 +8,7 @@
     "license": "MIT",
     "scripts": {
         "build": "webpack --config webpack.config.js",
-        "start": "webpack serve --config webpack.config.js"
+        "start": "webpack serve --host 0.0.0.0 --config webpack.config.js"
     },
     "browserslist": ">1%, not dead, ie 11",
     "devDependencies": {

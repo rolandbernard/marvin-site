@@ -1,5 +1,8 @@
 
-import { customElement, html, css, LitElement } from 'lit-element';
+import { customElement, html, css, LitElement, property } from 'lit-element';
+import { classMap } from 'lit-html/directives/class-map';
+
+import { isRouteActive } from 'components/simple-route';
 
 import 'components/switch-route';
 
@@ -82,7 +85,7 @@ const FEATURES: Feature[] = [
         image: Dictionary,
     },
     {
-        name: 'DuckDuckGo Instant Answer',
+        name: 'DuckDuckGo Instant',
         text: 'This module gives you the DuckDuckGo Instant Answers for your query.',
         image: DuckDuckGo,
     },
@@ -165,26 +168,152 @@ const GENERAL: Feature[] = [
     },
 ]
 
+@customElement('list-button')
+export class ListButton extends LitElement {
+
+    @property({ attribute: false })
+    feature?: Feature;
+
+    constructor() {
+        super();
+        this.onNavigation = this.onNavigation.bind(this);
+    }
+
+    connectedCallback() {
+        super.connectedCallback();
+        window.addEventListener('hashchange', this.onNavigation);
+    }
+
+    disconnectedCallback() {
+        super.disconnectedCallback();
+        window.removeEventListener('hashchange', this.onNavigation);
+    }
+
+    onNavigation() {
+        this.requestUpdate();
+    }
+
+    static get styles() {
+        return css`
+            .link {
+                display: flex;
+                flex-flow: row nowrap;
+                color: white;
+                text-decoration: none;
+                padding: 0.5rem;
+                align-items: center;
+                user-select: none;
+                transition: var(--transition);
+                transition-property: opacity;
+                position: relative;
+                transition: var(--transition);
+                transition-property: background;
+                background: #2f363f;
+            }
+            .link:hover {
+                background: #2b323a;
+            }
+            .link.active {
+                background: #272e35;
+            }
+            .icon, .name {
+                transition: var(--transition);
+                transition-property: opacity;
+                opacity: 0.625;
+            }
+            .icon {
+                font-size: 1rem;
+            }
+            .name {
+                margin-left: 0.25rem;
+                font-size: 0.8rem;
+                white-space: nowrap;
+            }
+            .link:hover .icon, .link:hover .name {
+                opacity: 0.9;
+            }
+            .link.active .icon, .link.active .name {
+                opacity: 1;
+            }
+        `;
+    }
+
+    render() {
+        if (this.feature) {
+            const url = `#/features/${this.feature.name.toLowerCase().replace(/\s+/g, '-')}`;
+            const classes = classMap({
+                'link': true,
+                'active': isRouteActive(`${url}(/.*)?`),
+                'linux_only': this.feature.linux_only ? true : false,
+                'windows_only': this.feature.window_only ? true : false,
+            });
+            return html`
+                <a
+                    class="${classes}"
+                    href="${url}"
+                    ondragstart="return false"
+                    @click="${() => this.requestUpdate()}"
+                >
+                    <material-icon class="icon linux" name="linux"></material-icon>
+                    <material-icon class="icon window" name="windows"></material-icon>
+                    <span class="name">
+                        ${this.feature.name}
+                    </span>
+                </a>
+            `;
+        }
+    }
+}
+
+@customElement('feature-item')
+export class FeatureItem extends LitElement {
+
+    @property({ attribute: false })
+    feature?: Feature;
+
+    static get styles() {
+        return css`
+            .image {
+                width: 100%;
+            }
+        `
+    }
+
+    render() {
+        return html`
+            <div class="name">
+                <div class="icons">
+                </div>
+                <div class="title">${this.feature?.name}</div>
+            </div>
+            <div class="desc">${this.feature?.text}</div>
+            ${
+                this.feature?.image
+                    ? html`<img class="image" src="${this.feature.image}" loading="lazy"/>`
+                    : undefined
+            }
+        `;
+    }
+}
+
 @customElement('features-page')
 export class FeaturesPage extends LitElement {
 
     static get styles() {
         return css`
-        `
-    }
-
-    renderFeature(feature: Feature) {
-        return html`
-            <div class="name">
-                <div class="icons">
-                </div>
-                <div class="title">${feature.name}</div>
-            </div>
-            <div class="desc">${feature.text}</div>
-            ${
-                feature.image
-                    ? html`<img class="image" src="${feature.image}" loading="lazy"/>`
-                    : undefined
+            :host {
+                display: flex;
+                flex-flow: row nowrap;
+            }
+            .list {
+                display: flex;
+                flex-flow: column;
+            }
+            .info {
+                display: flex;
+                flex-flow: column;
+                align-items: center;
+                justify-content: center;
             }
         `;
     }
@@ -192,14 +321,17 @@ export class FeaturesPage extends LitElement {
     render() {
         return html`
             <div class="list">
+                ${[...FEATURES, ...GENERAL].map(feature => html`
+                    <list-button .feature="${feature}"></list-button>
+                `)}
             </div>
             <div class="info">
                 <switch-route .routes="${[
                     ...[...FEATURES, ...GENERAL].map(feature => ({
                         route: `#/?features/${feature.name.toLowerCase().replace(/\s+/g, '-')}(/.*)?`,
-                        component: this.renderFeature(feature),
+                        component: html`<feature-item .feature="${feature}"></feature-item>`,
                     })),
-                    { component: this.renderFeature(FEATURES[0]) }
+                    { component: html`<feature-item .feature="${FEATURES[0]}"></feature-item>` }
                 ]}"></switch-route>
             </div>
         `;

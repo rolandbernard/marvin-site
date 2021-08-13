@@ -22,9 +22,7 @@ import Folders from 'assets/features/folders.png';
 import History from 'assets/features/history.png';
 import Html from 'assets/features/html.png';
 import Locate from 'assets/features/locate.png';
-import Settings from 'assets/features/settings.png';
 import SystemCommands from 'assets/features/system-commands.png';
-import Theme from 'assets/features/theme.png';
 import Translate from 'assets/features/translate.png';
 import Url from 'assets/features/url.png';
 import WebSearch from 'assets/features/web-search.png';
@@ -155,19 +153,6 @@ const FEATURES: Feature[] = [
     },
 ];
 
-const GENERAL: Feature[] = [
-    {
-        name: 'Settings',
-        text: 'The settings include general settings, theme settings and settings specific to certain modules.',
-        image: Settings,
-    },
-    {
-        name: 'Themes',
-        text: 'There are some predefined themes, but it is also possible to configure most of the colors and some other parameters.',
-        image: Theme,
-    },
-]
-
 @customElement('list-button')
 export class ListButton extends LitElement {
 
@@ -216,6 +201,18 @@ export class ListButton extends LitElement {
             .link.active {
                 background: #272e35;
             }
+            .link:hover .icon, .link.active .icon, .link:hover .name {
+                opacity: 0.9;
+            }
+            .link.active .name {
+                opacity: 1;
+            }
+            .windows-only .icon.linux {
+                opacity: 0.2;
+            }
+            .linux-only .icon.windows {
+                opacity: 0.2;
+            }
             .icon, .name {
                 transition: var(--transition);
                 transition-property: opacity;
@@ -225,15 +222,9 @@ export class ListButton extends LitElement {
                 font-size: 1rem;
             }
             .name {
-                margin-left: 0.25rem;
+                margin: 0 0.5rem;
                 font-size: 0.8rem;
                 white-space: nowrap;
-            }
-            .link:hover .icon, .link:hover .name {
-                opacity: 0.9;
-            }
-            .link.active .icon, .link.active .name {
-                opacity: 1;
             }
         `;
     }
@@ -244,8 +235,8 @@ export class ListButton extends LitElement {
             const classes = classMap({
                 'link': true,
                 'active': isRouteActive(`${url}(/.*)?`),
-                'linux_only': this.feature.linux_only ? true : false,
-                'windows_only': this.feature.window_only ? true : false,
+                'linux-only': this.feature.linux_only ? true : false,
+                'windows-only': this.feature.window_only ? true : false,
             });
             return html`
                 <a
@@ -254,11 +245,15 @@ export class ListButton extends LitElement {
                     ondragstart="return false"
                     @click="${() => this.requestUpdate()}"
                 >
-                    <material-icon class="icon linux" name="linux"></material-icon>
-                    <material-icon class="icon window" name="windows"></material-icon>
-                    <span class="name">
+                    <div class="icon linux">
+                        <material-icon name="linux"></material-icon>
+                    </div>
+                    <div class="icon windows">
+                        <material-icon name="windows"></material-icon>
+                    </div>
+                    <div class="name">
                         ${this.feature.name}
-                    </span>
+                    </div>
                 </a>
             `;
         }
@@ -273,8 +268,28 @@ export class FeatureItem extends LitElement {
 
     static get styles() {
         return css`
+            :host {
+                width: 100%;
+            }
+            .name {
+                margin: 0 2rem;
+                font-size: 1.75rem;
+                font-weight: bold;
+                color: white;
+                opacity: 0.8;
+                margin-left: 4rem;
+            }
+            .desc {
+                margin: 0 2rem;
+                color: white;
+                opacity: 0.8;
+                margin: 1rem 0;
+                margin-left: 4rem;
+            }
             .image {
                 width: 100%;
+                padding-left: 4rem;
+                box-sizing: border-box;
             }
         `
     }
@@ -304,12 +319,18 @@ export class FeaturesPage extends LitElement {
             :host {
                 display: flex;
                 flex-flow: row nowrap;
+                padding: 0 3rem;
+                width: 100%;
+                overflow: hidden;
             }
             .list {
+                flex: 0 0 auto;
                 display: flex;
                 flex-flow: column;
+                justify-content: center;
             }
             .info {
+                flex: 1 1 100%;
                 display: flex;
                 flex-flow: column;
                 align-items: center;
@@ -321,13 +342,13 @@ export class FeaturesPage extends LitElement {
     render() {
         return html`
             <div class="list">
-                ${[...FEATURES, ...GENERAL].map(feature => html`
+                ${FEATURES.map(feature => html`
                     <list-button .feature="${feature}"></list-button>
                 `)}
             </div>
             <div class="info">
                 <switch-route .routes="${[
-                    ...[...FEATURES, ...GENERAL].map(feature => ({
+                    ...FEATURES.map(feature => ({
                         route: `#/?features/${feature.name.toLowerCase().replace(/\s+/g, '-')}(/.*)?`,
                         component: html`<feature-item .feature="${feature}"></feature-item>`,
                     })),

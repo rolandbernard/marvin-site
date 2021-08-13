@@ -22,7 +22,9 @@ export class MaterialIcon extends LitElement {
     static get styles() {
         return css`
             :host {
-                display: contents;
+                display: block;
+                width: 1em;
+                height: 1em;
             }
             .material-icons {
                 display: contents;

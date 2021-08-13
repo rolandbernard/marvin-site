@@ -38,6 +38,9 @@ export class MaterialIcon extends LitElement {
                 direction: ltr;
                 -webkit-font-feature-settings: 'liga';
                 -webkit-font-smoothing: antialiased;
+                max-width: 1em;
+                max-height: 1em;
+                overflow: hidden;
             }
             .image {
                 pointer-events: none;

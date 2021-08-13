@@ -31,8 +31,6 @@ export class PageRoot extends LitElement {
                 flex: 1 1 auto;
                 height: 100%;
                 display: flex;
-                justify-content: center;
-                align-items: center;
             }
         `
     }

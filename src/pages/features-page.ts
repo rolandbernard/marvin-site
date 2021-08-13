@@ -361,9 +361,10 @@ export class FeaturesPage extends LitElement {
         return css`
             :host {
                 display: flex;
+                align-items: center;
+                justify-content: center;
                 flex-flow: row nowrap;
                 padding: 0 3rem;
-                width: 100%;
                 overflow: hidden;
             }
             .header {

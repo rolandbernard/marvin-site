@@ -9,12 +9,15 @@ export class MainPage extends LitElement {
     static get styles() {
         return css`
             :host {
-                max-width: 90%;
-                width: 800px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
                 text-align: center;
+                width: 100%;
             }
             .video {
-                max-width: 100%;
+                max-width: 90%;
+                width: 800px;
                 max-height: calc(80vh - 10rem);
             }
         `

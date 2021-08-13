@@ -74,9 +74,11 @@ export class DownloadPage extends LitElement {
         return css`
             :host {
                 display: flex;
+                justify-content: center;
+                align-items: center;
                 flex-flow: column;
                 align-items: center;
-                max-width: 100%;
+                width: 100%;
                 overflow: hidden;
             }
             .error {

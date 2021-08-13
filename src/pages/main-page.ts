@@ -24,11 +24,12 @@ export class MainPage extends LitElement {
         return html`
             <video
                 class="video"
-                .defaultPlaybackRate="${1.25}"
-                ?autoplay="${true}"
-                ?loop="${true}"
-                src="${Demo}"
-            ></video>
+                autoplay
+                muted
+                loop
+            >
+                <source src="${Demo}" type="video/mp4">
+            </video>
         `;
     }
 }

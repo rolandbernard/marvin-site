@@ -32,8 +32,8 @@ interface Feature {
     name: string;
     text: string;
     image?: string;
-    linux_only?: boolean;
-    window_only?: boolean;
+    linux?: boolean;
+    windows?: boolean;
 };
 
 const FEATURES: Feature[] = [
@@ -116,7 +116,7 @@ const FEATURES: Feature[] = [
         name: 'Locate',
         text: 'This module allows you to search for files using locate.',
         image: Locate,
-        linux_only: true,
+        windows: false,
     },
     {
         name: 'Scripts',
@@ -207,10 +207,10 @@ export class ListButton extends LitElement {
             .link.active .name {
                 opacity: 1;
             }
-            .windows-only .icon.linux {
+            .no-linux .icon.linux {
                 opacity: 0.2;
             }
-            .linux-only .icon.windows {
+            .no-windows .icon.windows {
                 opacity: 0.2;
             }
             .icon, .name {
@@ -220,11 +220,20 @@ export class ListButton extends LitElement {
             }
             .icon {
                 font-size: 1rem;
+                margin: 0 0.1rem;
             }
             .name {
                 margin: 0 0.5rem;
                 font-size: 0.8rem;
                 white-space: nowrap;
+            }
+            @media screen and (max-width: 600px) {
+                .icon {
+                    display: none;
+                }
+                .name {
+                    margin: 0;
+                }
             }
         `;
     }
@@ -235,8 +244,8 @@ export class ListButton extends LitElement {
             const classes = classMap({
                 'link': true,
                 'active': isRouteActive(`${url}(/.*)?`),
-                'linux-only': this.feature.linux_only ? true : false,
-                'windows-only': this.feature.window_only ? true : false,
+                'no-linux': !(this.feature.linux ?? true),
+                'no-windows': !(this.feature.windows ?? true),
             });
             return html`
                 <a
@@ -272,24 +281,56 @@ export class FeatureItem extends LitElement {
                 width: 100%;
             }
             .name {
-                margin: 0 2rem;
                 font-size: 1.75rem;
                 font-weight: bold;
                 color: white;
                 opacity: 0.8;
-                margin-left: 4rem;
+                padding-left: 4rem;
+                display: flex;
+                flex-flow: row nowrap;
+                align-items: center;
             }
-            .desc {
-                margin: 0 2rem;
+            .icons {
+                display: flex;
+                flex-flow: row nowrap;
                 color: white;
                 opacity: 0.8;
-                margin: 1rem 0;
-                margin-left: 4rem;
+                font-size: 1.25rem;
+                margin: 0 1rem;
+            }
+            .icon {
+                margin: 0 0.1rem;
+            }
+            .desc {
+                color: white;
+                opacity: 0.8;
+                padding: 1rem 0;
+                padding-left: 4rem;
             }
             .image {
                 width: 100%;
                 padding-left: 4rem;
                 box-sizing: border-box;
+            }
+            @media screen and (max-width: 750px) {
+                .name, .desc, .image {
+                    padding-left: 2rem;
+                }
+            }
+            @media screen and (max-width: 600px) {
+                .name, .desc, .image {
+                    padding-left: 1rem;
+                }
+            }
+            @media screen and (max-width: 400px) {
+                .name, .desc, .image {
+                    padding-left: 0.5rem;
+                }
+            }
+            @media screen and (max-width: 600px) {
+                .icons {
+                    display: none;
+                }
             }
         `
     }
@@ -297,9 +338,11 @@ export class FeatureItem extends LitElement {
     render() {
         return html`
             <div class="name">
-                <div class="icons">
-                </div>
                 <div class="title">${this.feature?.name}</div>
+                <div class="icons">
+                    ${this.feature?.linux ?? true ? html`<material-icon class="icon" name="linux"></material-icon>` : undefined}
+                    ${this.feature?.windows ?? true ? html`<material-icon class="icon" name="windows"></material-icon>` : undefined}
+                </div>
             </div>
             <div class="desc">${this.feature?.text}</div>
             ${
@@ -323,6 +366,12 @@ export class FeaturesPage extends LitElement {
                 width: 100%;
                 overflow: hidden;
             }
+            .header {
+                font-size: 0.8rem;
+                opacity: 0.625;
+                margin-bottom: 0.5rem;
+                margin-left: 0.5rem;
+            }
             .list {
                 flex: 0 0 auto;
                 display: flex;
@@ -336,12 +385,28 @@ export class FeaturesPage extends LitElement {
                 align-items: center;
                 justify-content: center;
             }
+            @media screen and (max-width: 750px) {
+                :host {
+                    padding: 0 2rem;
+                }
+            }
+            @media screen and (max-width: 600px) {
+                :host {
+                    padding: 0 1rem;
+                }
+            }
+            @media screen and (max-width: 400px) {
+                :host {
+                    padding: 0 0.5rem;
+                }
+            }
         `;
     }
 
     render() {
         return html`
             <div class="list">
+                <div class="header">Modules</div>
                 ${FEATURES.map(feature => html`
                     <list-button .feature="${feature}"></list-button>
                 `)}

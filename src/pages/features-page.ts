@@ -360,6 +360,7 @@ export class FeaturesPage extends Router {
                 display: flex;
                 flex-flow: column;
                 justify-content: center;
+                margin: 1rem 0;
             }
             .info {
                 flex: 1 1 100%;

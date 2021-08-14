@@ -2,12 +2,12 @@
 import { customElement, html, css, LitElement, property } from 'lit-element';
 import { classMap } from 'lit-html/directives/class-map';
 
-import { isRouteActive } from 'components/simple-route';
+import { Router } from 'components/router';
 
 import 'components/material-icon';
 
 @customElement('nav-button')
-export class NavButton extends LitElement {
+export class NavButton extends Router {
 
     @property()
     icon: string = '';
@@ -20,25 +20,6 @@ export class NavButton extends LitElement {
 
     @property()
     exact = false;
-
-    constructor() {
-        super();
-        this.onNavigation = this.onNavigation.bind(this);
-    }
-
-    connectedCallback() {
-        super.connectedCallback();
-        window.addEventListener('hashchange', this.onNavigation);
-    }
-
-    disconnectedCallback() {
-        super.disconnectedCallback();
-        window.removeEventListener('hashchange', this.onNavigation);
-    }
-
-    onNavigation() {
-        this.requestUpdate();
-    }
 
     static get styles() {
         return css`
@@ -97,7 +78,7 @@ export class NavButton extends LitElement {
     render() {
         const classes = classMap({
             'link': true,
-            'active': isRouteActive(this.href + (this.exact ? '/?' : '(/.*)?')),
+            'active': this.isRouteActive(this.href + (this.exact ? '/?' : '(/.*)?')),
         });
         return html`
             <a class="${classes}" href="${this.href}" ondragstart="return false" @click="${() => this.requestUpdate()}">

@@ -2,9 +2,7 @@
 import { customElement, html, css, LitElement, property } from 'lit-element';
 import { classMap } from 'lit-html/directives/class-map';
 
-import { isRouteActive } from 'components/simple-route';
-
-import 'components/switch-route';
+import { Router } from 'components/router';
 
 import Alias from 'assets/features/alias.png';
 import Applications from 'assets/features/applications.png';
@@ -159,24 +157,8 @@ export class ListButton extends LitElement {
     @property({ attribute: false })
     feature?: Feature;
 
-    constructor() {
-        super();
-        this.onNavigation = this.onNavigation.bind(this);
-    }
-
-    connectedCallback() {
-        super.connectedCallback();
-        window.addEventListener('hashchange', this.onNavigation);
-    }
-
-    disconnectedCallback() {
-        super.disconnectedCallback();
-        window.removeEventListener('hashchange', this.onNavigation);
-    }
-
-    onNavigation() {
-        this.requestUpdate();
-    }
+    @property({ attribute: false })
+    active = false;
 
     static get styles() {
         return css`
@@ -243,7 +225,7 @@ export class ListButton extends LitElement {
             const url = `#/features/${this.feature.name.toLowerCase().replace(/\s+/g, '-')}`;
             const classes = classMap({
                 'link': true,
-                'active': isRouteActive(`${url}(/.*)?`),
+                'active': this.active,
                 'no-linux': !(this.feature.linux ?? true),
                 'no-windows': !(this.feature.windows ?? true),
             });
@@ -355,7 +337,7 @@ export class FeatureItem extends LitElement {
 }
 
 @customElement('features-page')
-export class FeaturesPage extends LitElement {
+export class FeaturesPage extends Router {
 
     static get styles() {
         return css`
@@ -405,21 +387,18 @@ export class FeaturesPage extends LitElement {
     }
 
     render() {
+        const feature = FEATURES.find(
+            feature => this.isRouteActive(`#/?features/${feature.name.toLowerCase().replace(/\s+/g, '-')}(/.*)?`)
+        ) ?? FEATURES[0];
         return html`
             <div class="list">
                 <div class="header">Modules</div>
-                ${FEATURES.map(feature => html`
-                    <list-button .feature="${feature}"></list-button>
+                ${FEATURES.map(f => html`
+                    <list-button .feature="${f}" .active="${feature === f}"></list-button>
                 `)}
             </div>
             <div class="info">
-                <switch-route .routes="${[
-                    ...FEATURES.map(feature => ({
-                        route: `#/?features/${feature.name.toLowerCase().replace(/\s+/g, '-')}(/.*)?`,
-                        component: html`<feature-item .feature="${feature}"></feature-item>`,
-                    })),
-                    { component: html`<feature-item .feature="${FEATURES[0]}"></feature-item>` }
-                ]}"></switch-route>
+                <feature-item .feature="${feature}"></feature-item>
             </div>
         `;
     }

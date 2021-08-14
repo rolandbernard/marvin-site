@@ -1,9 +1,10 @@
 
-import { customElement, html, css, LitElement } from 'lit-element';
+import { customElement, html, css } from 'lit-element';
+
+import { Router } from 'components/router';
 
 import 'components/page-header';
 import 'components/page-footer';
-import 'components/switch-route';
 
 import 'pages/main-page';
 import 'pages/download-page';
@@ -12,7 +13,7 @@ import 'pages/features-page';
 import 'index.css';
 
 @customElement('page-root')
-export class PageRoot extends LitElement {
+export class PageRoot extends Router {
 
     static get styles() {
         return css`
@@ -40,11 +41,13 @@ export class PageRoot extends LitElement {
             <div class="page">
                 <page-header class="header"></page-header>
                 <div class="content">
-                    <switch-route .routes="${[
-                        { route: '#/?download(/.*)?', component: html`<download-page></download-page>` },
-                        { route: '#/?features(/.*)?', component: html`<features-page></features-page>` },
-                        { component: html`<main-page></main-page>` }
-                    ]}"></switch-route>
+                    ${
+                        this.isRouteActive('#/?download(/.*)?')
+                            ? html`<download-page></download-page>`
+                        : this.isRouteActive('#/?features(/.*)?')
+                            ? html`<features-page></features-page>`
+                            : html`<main-page></main-page>`
+                    }
                 </div>
                 <page-footer class="footer"></page-footer>
             </div>

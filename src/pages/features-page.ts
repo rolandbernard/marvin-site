@@ -1,5 +1,5 @@
 
-import { customElement, html, css, LitElement, property } from 'lit-element';
+import { customElement, html, css, property } from 'lit-element';
 import { classMap } from 'lit-html/directives/class-map';
 
 import { Router } from 'components/router';
@@ -152,7 +152,7 @@ const FEATURES: Feature[] = [
 ];
 
 @customElement('list-button')
-export class ListButton extends LitElement {
+export class ListButton extends Router {
 
     @property({ attribute: false })
     feature?: Feature;
@@ -252,7 +252,7 @@ export class ListButton extends LitElement {
 }
 
 @customElement('feature-item')
-export class FeatureItem extends LitElement {
+export class FeatureItem extends Router {
 
     @property({ attribute: false })
     feature?: Feature;

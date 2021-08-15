@@ -388,14 +388,16 @@ export class FeaturesPage extends Router {
     }
 
     render() {
+        const last_feature: Feature | null = JSON.parse(sessionStorage.getItem('last-feature') ?? 'null');
         const feature = FEATURES.find(
             feature => this.isRouteActive(`#/?features/${feature.name.toLowerCase().replace(/\s+/g, '-')}(/.*)?`)
-        ) ?? FEATURES[0];
+        ) ?? last_feature ?? FEATURES[0];
+        sessionStorage.setItem('last-feature', JSON.stringify(feature));
         return html`
             <div class="list">
                 <div class="header">Modules</div>
                 ${FEATURES.map(f => html`
-                    <list-button .feature="${f}" .active="${feature === f}"></list-button>
+                    <list-button .feature="${f}" .active="${feature.name === f.name}"></list-button>
                 `)}
             </div>
             <div class="info">
